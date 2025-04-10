@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package task;
+
+option go_package = "./api/pb";
+
+// gRPC service definition
+service TaskService {
+  rpc CreateTask (CreateTaskRequest) returns (TaskResponse);
+  rpc GetTask (GetTaskRequest) returns (TaskResponse);
+  rpc ListTasks (Empty) returns (ListTasksResponse);
+  rpc UpdateTask (UpdateTaskRequest) returns (TaskResponse);
+  rpc DeleteTask (DeleteTaskRequest) returns (DeleteTaskResponse);
+}
+
+// Task object
+message Task {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string status = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+// Requests and Responses
+message CreateTaskRequest {
+  string title = 1;
+  string description = 2;
+}
+
+message GetTaskRequest {
+  string id = 1;
+}
+
+message UpdateTaskRequest {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string status = 4;
+}
+
+message DeleteTaskRequest {
+  string id = 1;
+}
+
+message TaskResponse {
+  Task task = 1;
+}
+
+message ListTasksResponse {
+  repeated Task tasks = 1;
+}
+
+message DeleteTaskResponse {
+  string message = 1;
+}
+
+message Empty {}
