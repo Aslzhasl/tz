@@ -16,7 +16,7 @@ type TaskHandler struct {
 }
 
 func (h *TaskHandler) CreateTask(ctx context.Context, req *pb.CreateTaskRequest) (*pb.TaskResponse, error) {
-	task, err := h.Service.CreateTask(ctx, req.Title, req.Description)
+	task, err := h.Service.CreateTask(ctx, req.Title, req.Description, req.Status)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "could not create task: %v", err)
 	}

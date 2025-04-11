@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"time"
 	"tz/model"
 	"tz/repository"
@@ -10,7 +11,7 @@ import (
 )
 
 type TaskService interface {
-	CreateTask(ctx context.Context, title, description string) (*model.Task, error)
+	CreateTask(ctx context.Context, title, description, status string) (*model.Task, error)
 	GetTask(ctx context.Context, id string) (*model.Task, error)
 	ListTasks(ctx context.Context) ([]model.Task, error)
 	UpdateTask(ctx context.Context, task *model.Task) (*model.Task, error)
@@ -25,15 +26,16 @@ func NewTaskService(repo repository.TaskRepository) TaskService {
 	return &taskService{repo: repo}
 }
 
-func (s *taskService) CreateTask(ctx context.Context, title, description string) (*model.Task, error) {
+func (s *taskService) CreateTask(ctx context.Context, title, description, status string) (*model.Task, error) {
 	task := &model.Task{
 		ID:          uuid.New().String(),
 		Title:       title,
 		Description: description,
-		Status:      "pending",
+		Status:      status,
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
 	}
+	fmt.Println(status)
 	err := s.repo.Create(ctx, task)
 	return task, err
 }
